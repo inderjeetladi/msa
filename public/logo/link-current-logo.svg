@@ -1,0 +1,6 @@
+<svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <text x="10" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#9CA3AF">LINK</text>
+  <rect x="60" y="15" width="8" height="8" fill="#6B7280" transform="rotate(45 64 19)"/>
+  <rect x="68" y="17" width="8" height="8" fill="#9CA3AF" transform="rotate(45 72 21)"/>
+  <text x="85" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#000000">CURRENT</text>
+</svg>
