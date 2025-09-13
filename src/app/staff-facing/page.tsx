@@ -295,7 +295,7 @@ export default function StaffFacing() {
               </div>
             </div>
 
-            {/* Member List */}
+            {/* Member List with more members */}
             <div className="space-y-4">
               {/* Sarah Johnson */}
               <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
