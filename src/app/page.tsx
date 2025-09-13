@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Home() {
   return (
     <div className="p-6">
@@ -5,13 +7,16 @@ export default function Home() {
         {/* AI-Powered Agricultural Intelligence Section */}
         <div className="space-y-6">
           {/* Section 1 - AI-Powered Agricultural Intelligence */}
-          <div className="bg-white rounded-lg shadow-sm border p-8" style={{ borderColor: '#dddddd' }}>
+          <div className="bg-white p-8" style={{ borderColor: '#dddddd' }}>
             {/* Header with star icon */}
             <div className="text-center mb-8">
-              <div className="flex items-center justify-center mb-4">
-                <svg className="w-5 h-5 text-yellow-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
+              <div className="flex items-center justify-center mb-4 gap-x-2">
+                 <Image  src="/assets/images/star.png" 
+        alt="Agriculture AI"
+        width={20} 
+        height={20}
+        className="mb-2"
+      />
                 <h1 className="text-lg font-medium text-gray-700">AI-Powered Agricultural Intelligence</h1>
               </div>
               
@@ -45,8 +50,14 @@ export default function Home() {
 
             {/* AI Search Box */}
             <div className="relative max-w-4xl mx-auto">
-              <div className="flex items-center bg-gray-100 rounded-lg p-4">
+              <div className="flex  bg-gray-100 rounded-lg p-5 h-[187px] flex-col justify-between ">
                 {/* Plus button */}
+                <input
+                  type="text"
+                  placeholder="Type your question here ..."
+                  className="bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none text-lg"
+                />
+                <div className="flex justify-between">
                 <button className="w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center mr-4 transition-colors">
                   <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -54,12 +65,8 @@ export default function Home() {
                 </button>
                 
                 {/* Input field */}
-                <input
-                  type="text"
-                  placeholder="Type your question here ..."
-                  className="flex-1 bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none text-lg"
-                />
                 
+                <div className="flex gap-x-3">
                 {/* Audio button */}
                 <button className="w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center mr-4 transition-colors">
                   <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
@@ -73,19 +80,21 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                   </svg>
                 </button>
+                </div>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Section 2 - Policy Alerts Dashboard */}
-          <div className="bg-white rounded-lg shadow-sm border p-6" style={{ borderColor: '#dddddd' }}>
+          <div className="bg-[#F9F9FA] p-6" style={{ borderColor: '#dddddd' }}>
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">Policy Alerts</h2>
-                <p className="text-gray-600 mt-1">Stay informed about regulatory changes, program deadlines, and advocacy opportunities that impact your farming operations.</p>
+                <p className="text-gray-600 mt-1">Stay informed about regulatory changes, program deadlines, and <br/>advocacy opportunities that impact your farming operations.</p>
               </div>
-              <button className="flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+              <button className="flex items-center px-4 py-2 bg-white border border-[#ddd] hover:bg-gray-200 rounded-lg transition-colors">
                 <span className="text-gray-700 mr-2">Customize Alerts</span>
                 <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -96,25 +105,21 @@ export default function Home() {
             {/* Cards Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Weather & Planting Alert */}
-              <div className="bg-gray-50 rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Weather & Planting Alert</h3>
-                <div className="space-y-3 mb-4">
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-gray-700">Rainfall forecast: 2.8&quot; over next 5 days</span>
-                  </div>
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 text-orange-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-gray-700">Soil temperature: 47°F (below ideal)</span>
-                  </div>
-                  <div className="bg-yellow-100 border-l-4 border-yellow-400 p-3 rounded">
-                    <p className="text-yellow-800 font-medium">Recommendation: Hold soybean planting until early next week</p>
-                  </div>
-                </div>
+               <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+  <li className=" items-center">
+    Rainfall forecast: 2.8&quot; over next 5 days
+  </li>
+
+  <li className=" items-center">
+    Soil temperature: 47°F (below ideal)
+  </li>
+   <li className=" items-center">
+    Recommendation: Hold soybean planting until early next week
+  </li>
+</ul>
+
                 
                 <div className="mt-4">
                   <h4 className="font-semibold text-gray-900 mb-2">5-Day Forecast</h4>
@@ -156,86 +161,79 @@ export default function Home() {
               </div>
 
               {/* Grain Bids Nearby */}
-              <div className="bg-gray-50 rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Grain Bids Nearby</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-700">ADM Columbia: $12.47/bu (basis -05)</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-700">Cargill Jefferson City: $12.32/bu (basis -12)</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-700">MFA Mexico: $12.40/bu (basis -08)</span>
-                  </div>
-                  <div className="bg-green-100 border-l-4 border-green-400 p-3 rounded mt-4">
-                    <div className="flex items-center">
-                      <svg className="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      <span className="text-green-800 font-medium">ADM Columbia currently best net price.</span>
-                    </div>
-                  </div>
-                </div>
+                   <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+  <li className=" items-center">
+    ADM Columbia: $12.47/bu (basis -05)
+  </li>
+
+  <li className=" items-center">
+   Cargill Jefferson City: $12.32/bu (basis -12)
+  </li>
+   <li className=" items-center">
+   MFA Mexico: $12.40/bu (basis -08)
+  </li>
+   <li className="flex items-center mt-2">
+ ✅ ADM Columbia currently best net price.
+  </li>
+</ul>
               </div>
 
               {/* USDA Program Reminder */}
-              <div className="bg-gray-50 rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">USDA Program Reminder</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-gray-700 font-semibold">Signup deadline: March 15</span>
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-gray-700">ARC-CO projected payout: $21/acre (Boone County)</p>
-                    <p className="text-gray-700">PLC projected payout: $5/acre</p>
-                  </div>
-                  <div className="bg-blue-100 border-l-4 border-blue-400 p-3 rounded">
-                    <p className="text-blue-800 font-medium">Recommendation: ARC-CO likely better protection this year</p>
-                  </div>
-                </div>
+                                  <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+  <li className=" items-center">
+    Signup deadline: March 15
+  </li>
+
+  <li className=" items-center">
+  ARC-CO projected payout: $21/acre (Boone County)
+  </li>
+   <li className=" items-center">
+  PLC projected payout: $5/acre
+  </li>
+   <li className="items-center mt-2">
+Recommendation: ARC-CO likely better protection this year
+  </li>
+</ul>
               </div>
 
               {/* EPA Herbicide Update */}
-              <div className="bg-gray-50 rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">EPA Herbicide Update</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 text-orange-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-gray-700">New ESA restrictions released</span>
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-gray-700">Dicamba banned in Callaway & Cole counties</p>
-                    <p className="text-gray-700">Boone County remains unrestricted</p>
-                  </div>
-                  <div className="bg-orange-100 border-l-4 border-orange-400 p-3 rounded">
-                    <p className="text-orange-800 font-medium">Action: Review compliance requirements before spraying</p>
-                  </div>
-                </div>
+                <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+  <li className=" items-center">
+   New ESA restrictions released
+  </li>
+  <li className=" items-center">
+ Dicamba banned in Callaway & Cole counties
+  </li>
+   <li className=" items-center">
+Boone County remains unrestricted
+  </li>
+   <li className="items-center mt-2">
+Action: Review compliance requirements before spraying
+  </li>
+</ul>
               </div>
 
               {/* Input Cost Analysis */}
-              <div className="bg-gray-50 rounded-lg p-6 border lg:col-span-2" style={{ borderColor: '#dddddd' }}>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Input Cost Analysis</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-green-600">-8%</div>
-                    <p className="text-gray-600 text-sm">Fertilizer prices: down 8% YoY in Central MO</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">$412/acre</div>
-                    <p className="text-gray-600 text-sm">Avg soybean input costs (vs $450 in 2024)</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">$11.20/bu</div>
-                    <p className="text-gray-600 text-sm">Breakeven at 55 bu/acre yield</p>
-                  </div>
-                </div>
+              <div className="bg-white rounded-lg p-6 border lg:col-span-2" style={{ borderColor: '#dddddd' }}>
+                 <h3 className="text-lg font-semibold text-gray-900 mb-4"> Input Cost Analysis</h3>
+                                  <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+  <li className=" items-center">
+Fertilizer prices: down 8% YoY in Central MO
+  </li>
+  <li className=" items-center">
+Avg soybean input costs: $412/acre (vs $450 in 2024)
+  </li>
+   <li className=" items-center">
+Breakeven: $11.20/bu at 55 bu/acre yield
+  </li>
+  
+</ul>
               </div>
             </div>
           </div>
@@ -314,7 +312,7 @@ export default function Home() {
                 </div>
 
                 {/* View all Resources Button */}
-                <button className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors">
+                <button className="bg-white max-w-64 m-auto table w-full border border-[#000] text-black py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors">
                   View all Resources
                 </button>
               </div>
