@@ -15,13 +15,13 @@ export default function StaffFacing() {
     switch (activeTab) {
       case 'engagement-dashboard':
         return (
-          <div className="p-8">
+          <div className="p-0">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Engagement Dashboard</h2>
             
             {/* Metric Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Total Members Card */}
-              <div className="bg-purple-100 rounded-lg p-6">
+              <div className="bg-[#EDEEFC] rounded-lg p-6">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-sm font-medium text-gray-700">Total Members</h3>
                   <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,7 +35,7 @@ export default function StaffFacing() {
               </div>
 
               {/* Active This Week Card */}
-              <div className="bg-blue-100 rounded-lg p-6">
+              <div className="bg-[#E6F1FD] rounded-lg p-6">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-sm font-medium text-gray-700">Active This Week</h3>
                   <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,7 +49,7 @@ export default function StaffFacing() {
               </div>
 
               {/* Questions Asked Card */}
-              <div className="bg-purple-100 rounded-lg p-6">
+              <div className="bg-[#EDEEFC] rounded-lg p-6">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-sm font-medium text-gray-700">Questions Asked</h3>
                   <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,7 +63,7 @@ export default function StaffFacing() {
               </div>
 
               {/* Advocacy Actions Card */}
-              <div className="bg-blue-100 rounded-lg p-6">
+              <div className="bg-[#E6F1FD] rounded-lg p-6">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-sm font-medium text-gray-700">Advocacy Actions</h3>
                   <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,56 +80,56 @@ export default function StaffFacing() {
             {/* Questions and Events Section */}
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Top Questions Asked */}
-              <div>
+              <div className="bg-[#F9F9FA] p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Top Questions Asked</h3>
                 <p className="text-sm text-gray-600 mb-6">Most frequently asked questions this month</p>
                 
                 <div className="space-y-4">
                   {/* Question 1 */}
-                  <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                  <div className="bg-white rounded-lg p-4 border" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-start space-x-3">
-                      <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs font-medium text-white">1</span>
+                      <div className="w-6 h-6 bg-[#f0f0f0] rounded-[3px] flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-medium text-black">1</span>
                       </div>
                       <p className="text-gray-900 font-medium">What are the new FSMA requirements?</p>
                     </div>
                   </div>
 
                   {/* Question 2 */}
-                  <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                  <div className="bg-white rounded-lg p-4 border" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-start space-x-3">
-                      <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs font-medium text-white">2</span>
+                      <div className="w-6 h-6 bg-[#f0f0f0] rounded-[3px] flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-medium text-black">2</span>
                       </div>
                       <p className="text-gray-900 font-medium">How to implement organic certification?</p>
                     </div>
                   </div>
 
                   {/* Question 3 */}
-                  <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                  <div className="bg-white rounded-lg p-4 border" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-start space-x-3">
-                      <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs font-medium text-white">3</span>
+                      <div className="w-6 h-6 bg-[#f0f0f0] rounded-[3px] flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-medium text-black">3</span>
                       </div>
                       <p className="text-gray-900 font-medium">Export documentation for dairy products</p>
                     </div>
                   </div>
 
                   {/* Question 4 */}
-                  <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                  <div className="bg-white rounded-lg p-4 border" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-start space-x-3">
-                      <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs font-medium text-white">4</span>
+                      <div className="w-6 h-6 bg-[#f0f0f0] rounded-[3px] flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-medium text-black">4</span>
                       </div>
                       <p className="text-gray-900 font-medium">Labor compliance regulations update</p>
                     </div>
                   </div>
 
                   {/* Question 5 */}
-                  <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                  <div className="bg-white rounded-lg p-4 border" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-start space-x-3">
-                      <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs font-medium text-white">5</span>
+                      <div className="w-6 h-6 bg-[#f0f0f0] rounded-[3px] flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-medium text-black">5</span>
                       </div>
                       <p className="text-gray-900 font-medium">Pesticide usage reporting requirements</p>
                     </div>
@@ -138,45 +138,45 @@ export default function StaffFacing() {
               </div>
 
               {/* Upcoming Events */}
-              <div>
+              <div className="bg-[#F9F9FA] p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Upcoming Events</h3>
                 <p className="text-sm text-gray-600 mb-6">Member events and participation tracking</p>
                 
                 <div className="space-y-4">
                   {/* Event 1 */}
-                  <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                  <div className="bg-white rounded-lg p-4  border" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-center justify-between">
                       <div>
                         <h4 className="font-bold text-gray-900">FSMA Training Webinar</h4>
                         <p className="text-sm text-gray-600">Jan 20, 2024</p>
                       </div>
-                      <span className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full">
+                      <span className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-[3px]">
                         234 registered
                       </span>
                     </div>
                   </div>
 
                   {/* Event 2 */}
-                  <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                  <div className="bg-white rounded-lg p-4  border" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-center justify-between">
                       <div>
                         <h4 className="font-bold text-gray-900">Regional Farm Visit</h4>
                         <p className="text-sm text-gray-600">Jan 20, 2024</p>
                       </div>
-                      <span className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full">
+                      <span className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-[3px]">
                         67 registered
                       </span>
                     </div>
                   </div>
 
                   {/* Event 3 */}
-                  <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                  <div className="bg-white rounded-lg p-4  border" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-center justify-between">
                       <div>
                         <h4 className="font-bold text-gray-900">Advocacy Day Planning</h4>
                         <p className="text-sm text-gray-600">Feb 2, 2024</p>
                       </div>
-                      <span className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full">
+                      <span className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-[3px]">
                         89 registered
                       </span>
                     </div>
@@ -186,13 +186,13 @@ export default function StaffFacing() {
             </div>
 
             {/* Staff Alerts & Quick Links Section */}
-            <div className="mt-8">
+            <div className="mt-8 bg-[#F9F9FA] p-6">
               <h3 className="text-xl font-bold text-gray-900 mb-2">Staff Alerts & Quick Links</h3>
               <p className="text-sm text-gray-600 mb-6">Important notifications and frequently accessed resources</p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Regulatory Database Card */}
-                <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#f0f0f0' }}>
                   <div className="flex items-center mb-4">
                     <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mr-4">
                       <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -207,7 +207,7 @@ export default function StaffFacing() {
                 </div>
 
                 {/* Member Onboarding Card */}
-                <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#f0f0f0' }}>
                   <div className="flex items-center mb-4">
                     <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mr-4">
                       <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -223,7 +223,7 @@ export default function StaffFacing() {
                 </div>
 
                 {/* Analytics Reports Card */}
-                <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#f0f0f0' }}>
                   <div className="flex items-center mb-4">
                     <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mr-4">
                       <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -242,7 +242,7 @@ export default function StaffFacing() {
         );
       case 'member-directory':
         return (
-          <div className="p-8">
+          <div className="bg-[#F9F9FA] p-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Member Directory</h2>
             <p className="text-gray-600 mb-6">Search and filter members by region, commodity, and engagement level</p>
             
@@ -258,13 +258,13 @@ export default function StaffFacing() {
                 <input
                   type="text"
                   placeholder="Search members..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full bg-white pl-10 pr-4 py-3 border border-[#e8e8e8] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               
               {/* All Regions Dropdown */}
               <div className="relative">
-                <select className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <select className="appearance-none bg-white border border-[#e8e8e8] rounded-lg px-4 py-3 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                   <option>All regions</option>
                   <option>Northeast</option>
                   <option>Southeast</option>
@@ -280,7 +280,7 @@ export default function StaffFacing() {
               
               {/* All Commodities Dropdown */}
               <div className="relative">
-                <select className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <select className="appearance-none bg-white border border-[#e8e8e8] rounded-lg px-4 py-3 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                   <option>All Commodities</option>
                   <option>Dairy</option>
                   <option>Grain</option>
@@ -298,30 +298,30 @@ export default function StaffFacing() {
             {/* Member List with more members */}
             <div className="space-y-4">
               {/* Sarah Johnson */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
                       <h3 className="text-lg font-bold text-gray-900">Sarah Johnson</h3>
-                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">High Engagement</span>
+                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-[3px]">Active</span>
+                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-[3px]">High Engagement</span>
                     </div>
                     <p className="text-gray-600 mb-1">sarah@example.com</p>
                     <p className="text-sm text-gray-500">Northeast • Dairy • Last active: 2024-01-15</p>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                       </svg>
                     </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
@@ -331,30 +331,30 @@ export default function StaffFacing() {
               </div>
 
               {/* Mike Chen */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
                       <h3 className="text-lg font-bold text-gray-900">Mike Chen</h3>
-                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">High Engagement</span>
+                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-[3px]">Active</span>
+                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-[3px]">High Engagement</span>
                     </div>
                     <p className="text-gray-600 mb-1">mike@example.com</p>
                     <p className="text-sm text-gray-500">Northeast • Dairy • Last active: 2024-01-15</p>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                       </svg>
                     </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
@@ -364,30 +364,30 @@ export default function StaffFacing() {
               </div>
 
               {/* Emily Rodriguez */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
                       <h3 className="text-lg font-bold text-gray-900">Emily Rodriguez</h3>
-                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">High Engagement</span>
+                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-[3px]">Active</span>
+                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-[3px]">High Engagement</span>
                     </div>
                     <p className="text-gray-600 mb-1">emily@example.com</p>
                     <p className="text-sm text-gray-500">Northeast • Dairy • Last active: 2024-01-15</p>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                       </svg>
                     </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
@@ -397,30 +397,30 @@ export default function StaffFacing() {
               </div>
 
               {/* David Kim */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
                       <h3 className="text-lg font-bold text-gray-900">David Kim</h3>
-                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">High Engagement</span>
+                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-[3px]">Active</span>
+                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-[3px]">High Engagement</span>
                     </div>
                     <p className="text-gray-600 mb-1">david@example.com</p>
                     <p className="text-sm text-gray-500">Northeast • Dairy • Last active: 2024-01-15</p>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                       </svg>
                     </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
@@ -430,30 +430,30 @@ export default function StaffFacing() {
               </div>
 
               {/* Lisa Thompson */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
                       <h3 className="text-lg font-bold text-gray-900">Lisa Thompson</h3>
-                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">High Engagement</span>
+                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-[3px]">Active</span>
+                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-[3px]">High Engagement</span>
                     </div>
                     <p className="text-gray-600 mb-1">lisa@example.com</p>
                     <p className="text-sm text-gray-500">Northeast • Dairy • Last active: 2024-01-15</p>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                       </svg>
                     </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </button>
-                    <button className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
@@ -466,13 +466,13 @@ export default function StaffFacing() {
         );
       case 'communications-hub':
         return (
-          <div className="p-8">
+          <div className="p-0">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Communications Hub</h2>
             
             {/* Messaging Sections */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Email Campaigns Card */}
-              <div className="bg-gray-50 rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-[#F9F9FA] p-6 rounded-lg " style={{ borderColor: '#e8e8e8' }}>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Email Campaigns</h3>
                 <p className="text-sm text-gray-600 mb-6">Send targeted emails to member segments</p>
                 
@@ -481,7 +481,7 @@ export default function StaffFacing() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Select Audience</label>
                     <div className="relative">
-                      <select className="w-full appearance-none bg-white border border-gray-300 rounded-lg px-4 py-3 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                      <select className="w-full appearance-none bg-white border border-[#e8e8e8] rounded-lg px-4 py-3 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option>Choose member segment</option>
                         <option>All Members</option>
                         <option>Active Members</option>
@@ -501,7 +501,7 @@ export default function StaffFacing() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Message Template</label>
                     <div className="relative">
-                      <select className="w-full appearance-none bg-white border border-gray-300 rounded-lg px-4 py-3 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                      <select className="w-full appearance-none bg-white border border-[#e8e8e8] rounded-lg px-4 py-3 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option>Choose template</option>
                         <option>Newsletter Template</option>
                         <option>Event Invitation</option>
@@ -525,7 +525,7 @@ export default function StaffFacing() {
               </div>
 
               {/* Multi-Channel Messaging Card */}
-              <div className="bg-gray-50 rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-[#F9F9FA] p-6 rounded-lg" style={{ borderColor: '#e8e8e8' }}>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Multi-Channel Messaging</h3>
                 <p className="text-sm text-gray-600 mb-6">Send messages via email, SMS, and social media</p>
                 
@@ -534,7 +534,7 @@ export default function StaffFacing() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Message Type</label>
                     <div className="relative">
-                      <select className="w-full appearance-none bg-white border border-gray-300 rounded-lg px-4 py-3 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                      <select className="w-full appearance-none bg-white border border-[#e8e8e8] rounded-lg px-4 py-3 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option>Select message type</option>
                         <option>Announcement</option>
                         <option>Event Reminder</option>
@@ -557,19 +557,19 @@ export default function StaffFacing() {
                       {/* Email Channel */}
                       <label className="flex-1 cursor-pointer">
                         <input type="radio" name="channel" value="email" className="sr-only" defaultChecked />
-                        <div className="bg-white border-2 border-blue-500 rounded-lg p-3 flex items-center justify-center space-x-2 hover:bg-blue-50 transition-colors">
-                          <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="bg-white border-2 border-[#e8e8e8] rounded-lg p-3 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors ">
+                          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
-                          <span className="text-sm font-medium text-blue-600">Email</span>
+                          <span className="text-sm font-medium text-gray-600">Email</span>
                         </div>
                       </label>
 
                       {/* SMS Channel */}
                       <label className="flex-1 cursor-pointer">
                         <input type="radio" name="channel" value="sms" className="sr-only" />
-                        <div className="bg-white border-2 border-gray-300 rounded-lg p-3 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
+                        <div className="bg-white border-2 border-[#e8e8e8] rounded-lg p-3 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
                           <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                           </svg>
@@ -580,7 +580,7 @@ export default function StaffFacing() {
                       {/* Social Channel */}
                       <label className="flex-1 cursor-pointer">
                         <input type="radio" name="channel" value="social" className="sr-only" />
-                        <div className="bg-white border-2 border-gray-300 rounded-lg p-3 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
+                        <div className="bg-white border-2 border-[#e8e8e8] rounded-lg p-3 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
                           <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
                           </svg>
@@ -599,66 +599,66 @@ export default function StaffFacing() {
             </div>
 
             {/* Recent Communications Section */}
-            <div className="mt-8">
+            <div className="bg-[#F9F9FA] p-6 mt-8">
               <h3 className="text-xl font-bold text-gray-900 mb-2">Recent Communications</h3>
               <p className="text-sm text-gray-600 mb-6">Track sent messages and engagement rates</p>
               
               <div className="space-y-4">
                 {/* FSMA Compliance Update */}
-                <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-lg font-bold text-gray-900">FSMA Compliance Update</h4>
                       <p className="text-sm text-gray-600 mt-1">Sent: 2024-01-15</p>
                     </div>
                     <div className="flex items-center space-x-6">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">89%</div>
-                        <div className="text-sm text-gray-600">Opens</div>
+                      <div className="text-center flex gap-x-1">
+                        <div className="text-[13px] font-bold text-gray-900">89%</div>
+                        <div className="text-[13px] text-gray-600">Opens</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">34%</div>
-                        <div className="text-sm text-gray-600">Clicks</div>
+                      <div className="text-center flex gap-x-1">
+                        <div className="text-[13px] font-bold text-gray-900">34%</div>
+                        <div className="text-[13px] text-gray-600">Clicks</div>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Regional Meeting Invitation */}
-                <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-lg font-bold text-gray-900">Regional Meeting Invitation</h4>
                       <p className="text-sm text-gray-600 mt-1">Sent: 2024-01-14</p>
                     </div>
                     <div className="flex items-center space-x-6">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">76%</div>
-                        <div className="text-sm text-gray-600">Opens</div>
+                      <div className="text-center flex gap-x-1">
+                        <div className="text-[13px] font-bold text-gray-900">76%</div>
+                        <div className="text-[13px] text-gray-600">Opens</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">24%</div>
-                        <div className="text-sm text-gray-600">Clicks</div>
+                      <div className="text-center flex gap-x-1">
+                        <div className="text-[13px] font-bold text-gray-900">24%</div>
+                        <div className="text-[13px] text-gray-600">Clicks</div>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* New Regulatory Alert */}
-                <div className="bg-white rounded-lg p-6 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+                <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-lg font-bold text-gray-900">New Regulatory Alert</h4>
                       <p className="text-sm text-gray-600 mt-1">Sent: 2024-01-13</p>
                     </div>
                     <div className="flex items-center space-x-6">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">79%</div>
-                        <div className="text-sm text-gray-600">Opens</div>
+                      <div className="text-center flex gap-x-1">
+                        <div className="text-[13px] font-bold text-gray-900">79%</div>
+                        <div className="text-[13px] text-gray-600">Opens</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">74%</div>
-                        <div className="text-sm text-gray-600">Clicks</div>
+                      <div className="text-center flex gap-x-1">
+                        <div className="text-[13px] font-bold text-gray-900">74%</div>
+                        <div className="text-[13px] text-gray-600">Clicks</div>
                       </div>
                     </div>
                   </div>
@@ -676,19 +676,19 @@ export default function StaffFacing() {
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
         {/* Tab Navigation */}
-        <div className="bg-white rounded-lg shadow-sm border mb-6" style={{ borderColor: '#dddddd' }}>
-          <div className="flex border-b" style={{ borderColor: '#dddddd' }}>
+        <div className="bg-[#F9F9FA] rounded-lg  mb-6">
+          <div className="flex" >
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-4 text-sm font-medium transition-colors ${
+                className={`px-5 w-[33.33%] rounded-sm py-4 text-[14px] font-medium transition-colors ${
                   activeTab === tab.id
                     ? 'bg-black text-white border-b-2 border-black'
                     : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
                 }`}
                 style={{
-                  borderBottomColor: activeTab === tab.id ? '#000000' : 'transparent'
+                  borderBottomColor: activeTab === tab.id ? '#000000' : 'white'
                 }}
               >
                 {tab.name}
@@ -698,7 +698,7 @@ export default function StaffFacing() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-white rounded-lg shadow-sm border" style={{ borderColor: '#dddddd' }}>
+        <div className="bg-white rounded-lg " style={{ borderColor: '#e8e8e8' }}>
           {renderTabContent()}
         </div>
       </div>

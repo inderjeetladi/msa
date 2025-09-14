@@ -89,7 +89,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         lg:translate-x-0 lg:static
         fixed lg:relative z-50 lg:z-auto
       `}>
-                <div className="flex items-center justify-between h-16 px-4 border-b" style={{ borderColor: '#dddddd' }}>
+                <div className="flex items-center justify-between h-16 px-4 border-b" style={{ borderColor: '#e8e8e8' }}>
           <Logo size="md" />
           <button
             onClick={onClose}

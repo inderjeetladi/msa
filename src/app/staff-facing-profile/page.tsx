@@ -17,7 +17,7 @@ export default function StaffFacingProfile() {
         </div>
 
         {/* Main Profile Card */}
-        <div className="bg-white rounded-lg shadow-sm border p-8" style={{ borderColor: '#dddddd' }}>
+        <div className="bg-white rounded-lg shadow-sm border p-8" style={{ borderColor: '#e8e8e8' }}>
           {/* Member Basic Information */}
           <div className="flex items-start justify-between mb-8">
             <div className="flex items-start space-x-6">
@@ -47,7 +47,7 @@ export default function StaffFacingProfile() {
           </div>
 
           {/* Key Attributes */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pt-6 border-t" style={{ borderColor: '#dddddd' }}>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pt-6 border-t" style={{ borderColor: '#e8e8e8' }}>
             {/* Location */}
             <div className="flex items-start space-x-3">
               <svg className="w-5 h-5 text-gray-400 mt-1" fill="currentColor" viewBox="0 0 20 20">
@@ -163,7 +163,7 @@ export default function StaffFacingProfile() {
             
             <div className="space-y-4">
               {/* Question 1 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <h4 className="text-gray-900 font-medium mb-1">New EPA regulations on water runoff compliance</h4>
@@ -176,7 +176,7 @@ export default function StaffFacingProfile() {
               </div>
 
               {/* Question 2 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <h4 className="text-gray-900 font-medium mb-1">USDA crop insurance deadlines for spring planting</h4>
@@ -189,7 +189,7 @@ export default function StaffFacingProfile() {
               </div>
 
               {/* Question 3 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <h4 className="text-gray-900 font-medium mb-1">State tax implications for new equipment purchases</h4>
@@ -209,7 +209,7 @@ export default function StaffFacingProfile() {
             
             <div className="space-y-4">
               {/* Alert 1 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <h4 className="text-gray-900 font-medium mb-1">Updated FSMA Produce Safety Rule</h4>
@@ -222,7 +222,7 @@ export default function StaffFacingProfile() {
               </div>
 
               {/* Alert 2 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <h4 className="text-gray-900 font-medium mb-1">New Farm Bill Conservation Programs</h4>
@@ -235,7 +235,7 @@ export default function StaffFacingProfile() {
               </div>
 
               {/* Alert 3 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <h4 className="text-gray-900 font-medium mb-1">Drought Emergency Declarations</h4>
@@ -263,7 +263,7 @@ export default function StaffFacingProfile() {
             
             <div className="space-y-4 mb-6">
               {/* Note 1 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-bold text-gray-900">John Smith</h4>
                   <span className="text-sm text-gray-600">2024-01-15</span>
@@ -272,7 +272,7 @@ export default function StaffFacingProfile() {
               </div>
 
               {/* Note 2 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-bold text-gray-900">Maria Garcia</h4>
                   <span className="text-sm text-gray-600">2024-01-10</span>
@@ -281,7 +281,7 @@ export default function StaffFacingProfile() {
               </div>
 
               {/* Note 3 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-bold text-gray-900">John Smith</h4>
                   <span className="text-sm text-gray-600">2024-01-08</span>
@@ -291,7 +291,7 @@ export default function StaffFacingProfile() {
             </div>
 
             {/* Add New Note */}
-            <div className="bg-gray-50 rounded-lg p-6" style={{ borderColor: '#dddddd' }}>
+            <div className="bg-gray-50 rounded-lg p-6" style={{ borderColor: '#e8e8e8' }}>
               <h4 className="text-lg font-bold text-gray-900 mb-4">Add New Note</h4>
               <textarea
                 placeholder="Enter Internal Staff notes..."
@@ -310,7 +310,7 @@ export default function StaffFacingProfile() {
             
             <div className="space-y-4">
               {/* Communication 1 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-bold text-gray-900">Follow-up on EPA compliance question</h4>
                   <span className="text-sm text-gray-600">2024-01-15</span>
@@ -334,7 +334,7 @@ export default function StaffFacingProfile() {
               </div>
 
               {/* Communication 2 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-bold text-gray-900">Crop insurance consultation call</h4>
                   <span className="text-sm text-gray-600">2024-01-15</span>
@@ -358,7 +358,7 @@ export default function StaffFacingProfile() {
               </div>
 
               {/* Communication 3 */}
-              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-4 shadow-sm border" style={{ borderColor: '#e8e8e8' }}>
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-bold text-gray-900">Quick reminder: Tax filing deadline</h4>
                   <span className="text-sm text-gray-600">2024-01-15</span>

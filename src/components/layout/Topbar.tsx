@@ -10,7 +10,7 @@ interface TopbarProps {
 
 export default function Topbar({ isSidebarOpen, onToggleSidebar }: TopbarProps) {
   return (
-            <div className="bg-white shadow-sm border-b" style={{ borderColor: '#dddddd' }}>
+            <div className="bg-white shadow-sm border-b" style={{ borderColor: '#e8e8e8' }}>
       <div className="flex items-center justify-between h-16 px-4">
         <div className="flex items-center">
           <button

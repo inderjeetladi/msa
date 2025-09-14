@@ -7,7 +7,7 @@ export default function FarmerFacing() {
         {/* AI-Powered Agricultural Intelligence Section */}
         <div className="space-y-6">
           {/* Section 1 - AI-Powered Agricultural Intelligence */}
-          <div className="bg-white p-8" style={{ borderColor: '#dddddd' }}>
+          <div className="bg-white p-8" style={{ borderColor: '#e8e8e8' }}>
             {/* Header with star icon */}
             <div className="text-center mb-8">
               <div className="flex items-center justify-center mb-4 gap-x-2">
@@ -87,7 +87,7 @@ export default function FarmerFacing() {
           </div>
 
           {/* Section 2 - Policy Alerts Dashboard */}
-          <div className="bg-[#F9F9FA] p-6" style={{ borderColor: '#dddddd' }}>
+          <div className="bg-[#F9F9FA] p-6" style={{ borderColor: '#e8e8e8' }}>
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <div>
@@ -105,7 +105,7 @@ export default function FarmerFacing() {
             {/* Cards Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Weather & Planting Alert */}
-              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#e8e8e8' }}>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Weather & Planting Alert</h3>
                <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
   <li className=" items-center">
@@ -161,7 +161,7 @@ export default function FarmerFacing() {
               </div>
 
               {/* Grain Bids Nearby */}
-              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#e8e8e8' }}>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Grain Bids Nearby</h3>
                    <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
   <li className=" items-center">
@@ -181,7 +181,7 @@ export default function FarmerFacing() {
               </div>
 
               {/* USDA Program Reminder */}
-              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#e8e8e8' }}>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">USDA Program Reminder</h3>
                                   <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
   <li className=" items-center">
@@ -201,7 +201,7 @@ Recommendation: ARC-CO likely better protection this year
               </div>
 
               {/* EPA Herbicide Update */}
-              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#e8e8e8' }}>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">EPA Herbicide Update</h3>
                 <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
   <li className=" items-center">
@@ -220,7 +220,7 @@ Action: Review compliance requirements before spraying
               </div>
 
               {/* Input Cost Analysis */}
-              <div className="bg-white rounded-lg p-6 border lg:col-span-2" style={{ borderColor: '#dddddd' }}>
+              <div className="bg-white rounded-lg p-6 border lg:col-span-2" style={{ borderColor: '#e8e8e8' }}>
                  <h3 className="text-lg font-semibold text-gray-900 mb-4"> Input Cost Analysis</h3>
                                   <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
   <li className=" items-center">
@@ -239,7 +239,7 @@ Breakeven: $11.20/bu at 55 bu/acre yield
           </div>
 
           {/* Section 3 - Agricultural Resources & Farmer Community */}
-          <div className="" style={{ borderColor: '#dddddd' }}>
+          <div className="" style={{ borderColor: '#e8e8e8' }}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Agricultural Resources Section */}
               <div className="bg-[#F9F9FA] p-6">
@@ -249,7 +249,7 @@ Breakeven: $11.20/bu at 55 bu/acre yield
                 {/* Resource Cards */}
                 <div className="space-y-4 mb-6 flex gap-x-4">
                   {/* Best Practices Guides Card */}
-                  <div className="border rounded-lg p-6" style={{ borderColor: '#dddddd' }}>
+                  <div className="border rounded-lg p-6" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-center mb-3">
                       <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
                         <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
@@ -280,7 +280,7 @@ Breakeven: $11.20/bu at 55 bu/acre yield
                   </div>
 
                   {/* USDA Programs Card */}
-                  <div className="border rounded-lg p-6" style={{ borderColor: '#dddddd' }}>
+                  <div className="border rounded-lg p-6" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-center mb-3">
                       <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
                         <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
@@ -325,7 +325,7 @@ Breakeven: $11.20/bu at 55 bu/acre yield
                 {/* Discussion Cards */}
                 <div className="space-y-4">
                   {/* Discussion Card 1 */}
-                  <div className="border rounded-lg p-4" style={{ borderColor: '#dddddd' }}>
+                  <div className="border rounded-lg p-4" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-start space-x-3">
                       <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                         <span className="text-sm font-medium text-gray-700">MT</span>
@@ -347,7 +347,7 @@ Breakeven: $11.20/bu at 55 bu/acre yield
                   </div>
 
                   {/* Discussion Card 2 */}
-                  <div className="border rounded-lg p-4" style={{ borderColor: '#dddddd' }}>
+                  <div className="border rounded-lg p-4" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-start space-x-3">
                       <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                         <span className="text-sm font-medium text-gray-700">SJ</span>
@@ -369,7 +369,7 @@ Breakeven: $11.20/bu at 55 bu/acre yield
                   </div>
 
                   {/* Discussion Card 3 */}
-                  <div className="border rounded-lg p-4" style={{ borderColor: '#dddddd' }}>
+                  <div className="border rounded-lg p-4" style={{ borderColor: '#e8e8e8' }}>
                     <div className="flex items-start space-x-3">
                       <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                         <span className="text-sm font-medium text-gray-700">DC</span>
