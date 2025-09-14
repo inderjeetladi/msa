@@ -1,6 +1,58 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import WeatherCard from "@/components/weather/WeatherCard";
 
 export default function FarmerFacing() {
+  const [question, setQuestion] = useState("");
+  const [response, setResponse] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [lastRequestTime, setLastRequestTime] = useState(0);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!question.trim()) return;
+
+    // Rate limiting: prevent requests more than once every 2 seconds
+    const now = Date.now();
+    if (now - lastRequestTime < 2000) {
+      setError("Please wait a moment before asking another question.");
+      return;
+    }
+
+    setIsLoading(true);
+    setError("");
+    setResponse("");
+    setLastRequestTime(now);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to get response");
+      }
+
+      setResponse(data.answer);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSuggestedQuestion = (suggestedQuestion: string) => {
+    setQuestion(suggestedQuestion);
+  };
   return (
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
@@ -37,54 +89,123 @@ export default function FarmerFacing() {
 
             {/* Suggested Question Buttons */}
             <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center">
-              <button className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors">
+              <button 
+                onClick={() => handleSuggestedQuestion("What are the latest changes in biotech labeling requirements?")}
+                className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors"
+              >
                 What are the latest changes in biotech labeling requirements?
               </button>
-              <button className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors">
+              <button 
+                onClick={() => handleSuggestedQuestion("How do I navigate USDA-APHIS notification process?")}
+                className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors"
+              >
                 How do I navigate USDA-APHIS notification process?
               </button>
-              <button className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors">
+              <button 
+                onClick={() => handleSuggestedQuestion("What documentation is needed for clinical trial applications?")}
+                className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors"
+              >
                 What documentation is needed for clinical trial applications?
               </button>
             </div>
 
             {/* AI Search Box */}
             <div className="relative max-w-4xl mx-auto">
-              <div className="flex  bg-gray-100 rounded-lg p-5 h-[187px] flex-col justify-between ">
-                {/* Plus button */}
-                <input
-                  id="farmer-question"
-                  type="text"
-                  placeholder="Type your question here ..."
-                  className="bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none text-lg"
-                />
-                <div className="flex justify-between">
-                <button className="w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center mr-4 transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                </button>
-                
-                {/* Input field */}
-                
-                <div className="flex gap-x-3">
-                {/* Audio button */}
-                <button className="w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center mr-4 transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM15.657 6.343a1 1 0 011.414 0A9.972 9.972 0 0119 12a9.972 9.972 0 01-1.929 5.657 1 1 0 11-1.414-1.414A7.971 7.971 0 0017 12a7.971 7.971 0 00-1.343-4.243 1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
-                
-                {/* Send button */}
-                <button className="w-10 h-10 bg-black hover:bg-gray-800 rounded-full flex items-center justify-center transition-colors">
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                  </svg>
-                </button>
+              <form onSubmit={handleSubmit}>
+                <div className="flex bg-gray-100 rounded-lg p-5 h-[187px] flex-col justify-between">
+                  {/* Input field */}
+                  <input
+                    id="farmer-question"
+                    type="text"
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    placeholder="Type your question here ..."
+                    className="bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none text-lg"
+                    disabled={isLoading}
+                  />
+                  <div className="flex justify-end">
+                    {/* <button 
+                      type="button"
+                      className="w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center mr-4 transition-colors"
+                    >
+                      <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </button> */}
+                    
+                    <div className="flex gap-x-3">
+                      {/* Audio button */}
+                      {/* <button 
+                        type="button"
+                        className="w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center mr-4 transition-colors"
+                      >
+                        <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM15.657 6.343a1 1 0 011.414 0A9.972 9.972 0 0119 12a9.972 9.972 0 01-1.929 5.657 1 1 0 11-1.414-1.414A7.971 7.971 0 0017 12a7.971 7.971 0 00-1.343-4.243 1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      </button> */}
+                      
+                      {/* Send button */}
+                      <button 
+                        type="submit"
+                        disabled={isLoading || !question.trim()}
+                        className="w-10 h-10 bg-black hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-full flex items-center justify-center transition-colors"
+                      >
+                        {isLoading ? (
+                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        ) : (
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                          </svg>
+                        )}
+                      </button>
+                    </div>
+                  </div>
                 </div>
+              </form>
+            </div>
+
+            {/* AI Response Display */}
+            {(response || error || isLoading) && (
+              <div className="mt-6 max-w-4xl mx-auto">
+                <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#e8e8e8' }}>
+                  <div className="flex items-center mb-4">
+                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                      <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900">AI Agricultural Assistant</h3>
+                  </div>
+                  
+                  {isLoading && (
+                    <div className="flex items-center space-x-3">
+                      <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+                      <span className="text-gray-600">Thinking about your agricultural question...</span>
+                    </div>
+                  )}
+                  
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-red-800 font-medium">Error:</span>
+                      </div>
+                      <p className="text-red-700 mt-1">{error}</p>
+                    </div>
+                  )}
+                  
+                  {response && !isLoading && (
+                    <div className="prose prose-sm max-w-none">
+                      <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+                        {response}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Section 2 - Policy Alerts Dashboard */}
@@ -106,60 +227,7 @@ export default function FarmerFacing() {
             {/* Cards Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Weather & Planting Alert */}
-              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#e8e8e8' }}>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Weather & Planting Alert</h3>
-               <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
-  <li className=" items-center">
-    Rainfall forecast: 2.8&quot; over next 5 days
-  </li>
-
-  <li className=" items-center">
-    Soil temperature: 47°F (below ideal)
-  </li>
-   <li className=" items-center">
-    Recommendation: Hold soybean planting until early next week
-  </li>
-</ul>
-
-                
-                <div className="mt-4">
-                  <h4 className="font-semibold text-gray-900 mb-2">5-Day Forecast</h4>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sun-icon lucide-sun mr-2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                        <span className="text-gray-700">Mon: 65°F — Sunny</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                       <svg className="w-6 h-6 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                         <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
-                       </svg>
-                        <span className="text-gray-700">Tue: 61°F — Cloudy</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-cloud-rain-wind-icon lucide-cloud-rain-wind mr-2"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m9.2 22 3-7"/><path d="m9 13-3 7"/><path d="m17 13-3 7"/></svg>
-                        <span className="text-gray-700">Wed: 58°F — Rain</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-cloud-rain-wind-icon lucide-cloud-rain-wind mr-2"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m9.2 22 3-7"/><path d="m9 13-3 7"/><path d="m17 13-3 7"/></svg>                      
-                        <span className="text-gray-700">Thu: 60°F — Rain</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sun-icon lucide-sun mr-2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                        <span className="text-gray-700">Fri: 67°F — Sunny</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <WeatherCard />
 
               {/* Grain Bids Nearby */}
               <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#e8e8e8' }}>
