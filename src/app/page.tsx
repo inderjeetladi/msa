@@ -53,6 +53,7 @@ export default function Home() {
               <div className="flex  bg-gray-100 rounded-lg p-5 h-[187px] flex-col justify-between ">
                 {/* Plus button */}
                 <input
+                  id="farmer-question"
                   type="text"
                   placeholder="Type your question here ..."
                   className="bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none text-lg"
