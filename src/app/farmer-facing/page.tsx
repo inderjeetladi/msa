@@ -12,11 +12,11 @@ export default function FarmerFacing() {
             <div className="text-center mb-8">
               <div className="flex items-center justify-center mb-4 gap-x-2">
                  <Image  src="/assets/images/star.png" 
-        alt="Agriculture AI"
-        width={20} 
-        height={20}
-        className="mb-2"
-      />
+                  alt="Agriculture AI"
+                  width={20} 
+                  height={20}
+                  className="mb-2"
+                />
                 <h1 className="text-lg font-medium text-gray-700">AI-Powered Agricultural Intelligence</h1>
               </div>
               
