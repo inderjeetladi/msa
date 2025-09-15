@@ -158,7 +158,7 @@ export default function StaffFacingProfile() {
         {/* Recent Questions and Policy Alerts Section */}
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Recent Questions */}
-          <div>
+          <div className="bg-[#F9F9FA] p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Recent Questions</h3>
             
             <div className="space-y-4">
@@ -204,7 +204,7 @@ export default function StaffFacingProfile() {
           </div>
 
           {/* Recent Policy Alerts */}
-          <div>
+          <div className="bg-[#F9F9FA] p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Recent Policy Alerts</h3>
             
             <div className="space-y-4">
@@ -253,7 +253,7 @@ export default function StaffFacingProfile() {
         {/* Internal Staff Notes and Communication History Section */}
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Internal Staff Notes */}
-          <div>
+          <div className="bg-[#F9F9FA] p-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold text-gray-900">Internal Staff Notes</h3>
               <button className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors text-sm">
@@ -305,7 +305,7 @@ export default function StaffFacingProfile() {
           </div>
 
           {/* Communication History */}
-          <div>
+          <div className="bg-[#F9F9FA] p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Communication History</h3>
             
             <div className="space-y-4">

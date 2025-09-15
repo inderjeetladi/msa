@@ -164,7 +164,7 @@ export default function WeatherCard({ className = "" }: WeatherCardProps) {
         <li className="flex items-center">
           Current: {weatherData.current.temperature}°F — {weatherData.current.description}
         </li>
-        <li className="flex items-center mt-2">
+        <li className="flex items-center mt-2 flex-wrap">
           <span className="font-medium">Recommendation:</span> {plantingRecommendation}
         </li>
       </ul>
