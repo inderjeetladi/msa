@@ -156,7 +156,7 @@ export default function WeatherCard({ className = "" }: WeatherCardProps) {
       {/* Current Weather Summary */}
       <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
         <li className="flex items-center">
-          Rainfall forecast: {totalPrecipitation.toFixed(1)}" over next 5 days
+          Rainfall forecast: {totalPrecipitation.toFixed(1)}&quot; over next 5 days
         </li>
         <li className="flex items-center">
           Average temperature: {Math.round(avgTemp)}°F
