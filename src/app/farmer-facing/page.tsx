@@ -3,6 +3,9 @@
 import Image from "next/image";
 import { useState } from "react";
 import WeatherCard from "@/components/weather/WeatherCard";
+import USDAProgramReminder from "@/components/usda/USDAProgramReminder";
+import EPAHerbicideUpdate from "@/components/epa/EPAHerbicideUpdate";
+import InputCostAnalysis from "@/components/input-cost/InputCostAnalysis";
 
 export default function FarmerFacing() {
   const [question, setQuestion] = useState("");
@@ -250,60 +253,13 @@ export default function FarmerFacing() {
               </div>
 
               {/* USDA Program Reminder */}
-              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#e8e8e8' }}>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">USDA Program Reminder</h3>
-                                  <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
-  <li className=" items-center">
-    Signup deadline: March 15
-  </li>
-
-  <li className=" items-center">
-  ARC-CO projected payout: $21/acre (Boone County)
-  </li>
-   <li className=" items-center">
-  PLC projected payout: $5/acre
-  </li>
-   <li className="items-center mt-2">
-Recommendation: ARC-CO likely better protection this year
-  </li>
-</ul>
-              </div>
+              <USDAProgramReminder county="Boone County" state="Missouri" />
 
               {/* EPA Herbicide Update */}
-              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#e8e8e8' }}>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">EPA Herbicide Update</h3>
-                <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
-  <li className=" items-center">
-   New ESA restrictions released
-  </li>
-  <li className=" items-center">
- Dicamba banned in Callaway & Cole counties
-  </li>
-   <li className=" items-center">
-Boone County remains unrestricted
-  </li>
-   <li className="items-center mt-2">
-Action: Review compliance requirements before spraying
-  </li>
-</ul>
-              </div>
+              <EPAHerbicideUpdate county="Boone County" state="Missouri" />
 
               {/* Input Cost Analysis */}
-              <div className="bg-white rounded-lg p-6 border lg:col-span-2" style={{ borderColor: '#e8e8e8' }}>
-                 <h3 className="text-lg font-semibold text-gray-900 mb-4"> Input Cost Analysis</h3>
-                                  <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
-  <li className=" items-center">
-Fertilizer prices: down 8% YoY in Central MO
-  </li>
-  <li className=" items-center">
-Avg soybean input costs: $412/acre (vs $450 in 2024)
-  </li>
-   <li className=" items-center">
-Breakeven: $11.20/bu at 55 bu/acre yield
-  </li>
-  
-</ul>
-              </div>
+              <InputCostAnalysis region="Central MO" crop="soybean" />
             </div>
           </div>
 
