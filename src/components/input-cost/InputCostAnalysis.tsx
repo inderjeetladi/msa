@@ -12,11 +12,62 @@ export default function InputCostAnalysis({
   crop = "soybean" 
 }: InputCostAnalysisProps) {
   const [inputCostInfo, setInputCostInfo] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [lastUpdated, setLastUpdated] = useState<string>("");
 
-  const fetchInputCostInfo = async () => {
+  const CACHE_KEY = `input_cost_${region}_${crop}`;
+  const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+  const getCachedInputCostInfo = (): { inputCostInfo: string; timestamp: string } | null => {
+    try {
+      if (typeof window === 'undefined') return null;
+      
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return null;
+      
+      const parsedCache = JSON.parse(cached);
+      const now = Date.now();
+      const isExpired = now - parsedCache.timestamp > CACHE_DURATION;
+      
+      if (isExpired) {
+        localStorage.removeItem(CACHE_KEY);
+        return null;
+      }
+      
+      return parsedCache;
+    } catch (error) {
+      console.error('Error reading input cost info from localStorage:', error);
+      return null;
+    }
+  };
+
+  const setCachedInputCostInfo = (inputCostInfo: string, timestamp: string): void => {
+    try {
+      if (typeof window === 'undefined') return;
+      
+      const cacheData = {
+        inputCostInfo,
+        timestamp: Date.now()
+      };
+      
+      localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+    } catch (error) {
+      console.error('Error writing input cost info to localStorage:', error);
+    }
+  };
+
+  const fetchInputCostInfo = async (forceRefresh = false) => {
+    // Check cache first if not forcing refresh
+    if (!forceRefresh) {
+      const cached = getCachedInputCostInfo();
+      if (cached) {
+        setInputCostInfo(cached.inputCostInfo);
+        setLastUpdated(cached.timestamp);
+        return;
+      }
+    }
+
     setIsLoading(true);
     setError("");
     
@@ -37,6 +88,9 @@ export default function InputCostAnalysis({
 
       setInputCostInfo(data.inputCostInfo);
       setLastUpdated(data.timestamp);
+      
+      // Cache the result
+      setCachedInputCostInfo(data.inputCostInfo, data.timestamp);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       // Fallback to static content if API fails
@@ -89,7 +143,7 @@ Breakeven: $11.20/bu at 55 bu/acre yield`);
             <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
           )}
           <button
-            onClick={fetchInputCostInfo}
+            onClick={() => fetchInputCostInfo(true)}
             disabled={isLoading}
             className="text-xs text-gray-500 hover:text-gray-700 disabled:opacity-50"
             title="Refresh input cost information"

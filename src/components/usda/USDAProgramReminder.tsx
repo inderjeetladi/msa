@@ -12,11 +12,62 @@ export default function USDAProgramReminder({
   state = "Missouri" 
 }: USDAProgramReminderProps) {
   const [usdaInfo, setUsdaInfo] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [lastUpdated, setLastUpdated] = useState<string>("");
 
-  const fetchUSDAInfo = async () => {
+  const CACHE_KEY = `usda_reminder_${county}_${state}`;
+  const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+  const getCachedUSDAInfo = (): { usdaInfo: string; timestamp: string } | null => {
+    try {
+      if (typeof window === 'undefined') return null;
+      
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return null;
+      
+      const parsedCache = JSON.parse(cached);
+      const now = Date.now();
+      const isExpired = now - parsedCache.timestamp > CACHE_DURATION;
+      
+      if (isExpired) {
+        localStorage.removeItem(CACHE_KEY);
+        return null;
+      }
+      
+      return parsedCache;
+    } catch (error) {
+      console.error('Error reading USDA info from localStorage:', error);
+      return null;
+    }
+  };
+
+  const setCachedUSDAInfo = (usdaInfo: string, timestamp: string): void => {
+    try {
+      if (typeof window === 'undefined') return;
+      
+      const cacheData = {
+        usdaInfo,
+        timestamp: Date.now()
+      };
+      
+      localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+    } catch (error) {
+      console.error('Error writing USDA info to localStorage:', error);
+    }
+  };
+
+  const fetchUSDAInfo = async (forceRefresh = false) => {
+    // Check cache first if not forcing refresh
+    if (!forceRefresh) {
+      const cached = getCachedUSDAInfo();
+      if (cached) {
+        setUsdaInfo(cached.usdaInfo);
+        setLastUpdated(cached.timestamp);
+        return;
+      }
+    }
+
     setIsLoading(true);
     setError("");
     
@@ -37,6 +88,9 @@ export default function USDAProgramReminder({
 
       setUsdaInfo(data.usdaInfo);
       setLastUpdated(data.timestamp);
+      
+      // Cache the result
+      setCachedUSDAInfo(data.usdaInfo, data.timestamp);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       // Fallback to static content if API fails
@@ -99,7 +153,7 @@ Recommendation: ARC-CO likely better protection this year`);
             <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
           )}
           <button
-            onClick={fetchUSDAInfo}
+            onClick={() => fetchUSDAInfo(true)}
             disabled={isLoading}
             className="text-xs text-gray-500 hover:text-gray-700 disabled:opacity-50"
             title="Refresh USDA program information"
