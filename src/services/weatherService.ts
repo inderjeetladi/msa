@@ -21,6 +21,49 @@ export interface WeatherForecast {
   };
 }
 
+// OpenWeatherMap API response interfaces
+interface OpenWeatherMain {
+  temp: number;
+  humidity: number;
+}
+
+interface OpenWeatherWeather {
+  description: string;
+  icon: string;
+}
+
+interface OpenWeatherWind {
+  speed: number;
+}
+
+interface OpenWeatherRain {
+  '3h'?: number;
+}
+
+interface OpenWeatherForecastItem {
+  dt: number;
+  main: OpenWeatherMain;
+  weather: OpenWeatherWeather[];
+  wind: OpenWeatherWind;
+  rain?: OpenWeatherRain;
+}
+
+interface OpenWeatherCity {
+  name: string;
+  country: string;
+}
+
+interface OpenWeatherForecastResponse {
+  list: OpenWeatherForecastItem[];
+  city: OpenWeatherCity;
+}
+
+interface OpenWeatherCurrentResponse {
+  main: OpenWeatherMain;
+  weather: OpenWeatherWeather[];
+  wind: OpenWeatherWind;
+}
+
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY || 'your-api-key-here';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 const CACHE_KEY = 'weather_forecast_cache';
@@ -92,14 +135,14 @@ export const getWeatherForecast = async (city: string = 'St. Louis', country: st
       throw new Error(`Weather API error: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data: OpenWeatherForecastResponse = await response.json();
     
     // Process the 5-day forecast data
     const forecast: WeatherData[] = [];
     const processedDates = new Set<string>();
     
     // Get daily forecasts (every 24 hours)
-    data.list.forEach((item: any) => {
+    data.list.forEach((item: OpenWeatherForecastItem) => {
       const date = new Date(item.dt * 1000).toDateString();
       const time = new Date(item.dt * 1000).getHours();
       
@@ -127,7 +170,7 @@ export const getWeatherForecast = async (city: string = 'St. Louis', country: st
       throw new Error(`Current weather API error: ${currentResponse.status}`);
     }
     
-    const currentData = await currentResponse.json();
+    const currentData: OpenWeatherCurrentResponse = await currentResponse.json();
 
     const weatherData: WeatherForecast = {
       city: data.city.name,
