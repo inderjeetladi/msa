@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase'
 export interface Prompt {
   id?: number
   created_at?: string
-  propmt: string
+  prompt: string
   prompt_result?: string
   user_id?: string
 }
@@ -34,7 +34,7 @@ export class PromptsService {
         .from('prompts')
         .insert([
           {
-            propmt: prompt,
+            prompt: prompt,
             prompt_result: promptResult || null,
             user_id: userId || null
           }

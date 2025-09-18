@@ -139,11 +139,11 @@ export default function FarmerFacing() {
                 savedPrompts.slice(0, 3).map((prompt, index) => (
                   <button 
                     key={prompt.id || index}
-                    onClick={() => handleSuggestedQuestion(prompt.propmt)}
+                    onClick={() => handleSuggestedQuestion(prompt.prompt)}
                     className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors"
                     title={`Asked on ${new Date(prompt.created_at || '').toLocaleDateString()}`}
                   >
-                    {prompt.propmt}
+                    {prompt.prompt}
                   </button>
                 ))
               ) : (
