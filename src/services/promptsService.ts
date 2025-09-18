@@ -8,6 +8,18 @@ export interface Prompt {
   user_id?: string
 }
 
+export interface ServiceError {
+  message: string
+  details?: string
+  hint?: string
+  code?: string
+}
+
+export type ServiceResult<T> = {
+  data: T | null
+  error: ServiceError | null
+}
+
 export class PromptsService {
   /**
    * Save a prompt to the database
@@ -16,7 +28,7 @@ export class PromptsService {
    * @param userId - Optional user ID (can be null for anonymous users)
    * @returns Promise with the saved prompt data or error
    */
-  static async savePrompt(prompt: string, promptResult?: string, userId?: string): Promise<{ data: Prompt | null; error: any }> {
+  static async savePrompt(prompt: string, promptResult?: string, userId?: string): Promise<ServiceResult<Prompt>> {
     try {
       const { data, error } = await supabase
         .from('prompts')
@@ -30,9 +42,27 @@ export class PromptsService {
         .select()
         .single()
 
-      return { data, error }
+      if (error) {
+        return { 
+          data: null, 
+          error: {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code
+          }
+        }
+      }
+
+      return { data, error: null }
     } catch (err) {
-      return { data: null, error: err }
+      return { 
+        data: null, 
+        error: {
+          message: err instanceof Error ? err.message : 'Unknown error occurred',
+          details: 'Database operation failed'
+        }
+      }
     }
   }
 
@@ -41,7 +71,7 @@ export class PromptsService {
    * @param userId - The user ID to get prompts for
    * @returns Promise with array of prompts or error
    */
-  static async getUserPrompts(userId: string): Promise<{ data: Prompt[] | null; error: any }> {
+  static async getUserPrompts(userId: string): Promise<ServiceResult<Prompt[]>> {
     try {
       const { data, error } = await supabase
         .from('prompts')
@@ -49,9 +79,27 @@ export class PromptsService {
         .eq('user_id', userId)
         .order('created_at', { ascending: false })
 
-      return { data, error }
+      if (error) {
+        return { 
+          data: null, 
+          error: {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code
+          }
+        }
+      }
+
+      return { data: data || [], error: null }
     } catch (err) {
-      return { data: null, error: err }
+      return { 
+        data: null, 
+        error: {
+          message: err instanceof Error ? err.message : 'Unknown error occurred',
+          details: 'Database operation failed'
+        }
+      }
     }
   }
 
@@ -59,16 +107,34 @@ export class PromptsService {
    * Get all prompts (for admin purposes)
    * @returns Promise with array of all prompts or error
    */
-  static async getAllPrompts(): Promise<{ data: Prompt[] | null; error: any }> {
+  static async getAllPrompts(): Promise<ServiceResult<Prompt[]>> {
     try {
       const { data, error } = await supabase
         .from('prompts')
         .select('*')
         .order('created_at', { ascending: false })
 
-      return { data, error }
+      if (error) {
+        return { 
+          data: null, 
+          error: {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code
+          }
+        }
+      }
+
+      return { data: data || [], error: null }
     } catch (err) {
-      return { data: null, error: err }
+      return { 
+        data: null, 
+        error: {
+          message: err instanceof Error ? err.message : 'Unknown error occurred',
+          details: 'Database operation failed'
+        }
+      }
     }
   }
 }
