@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import WeatherCard from "@/components/weather/WeatherCard";
 import USDAProgramReminder from "@/components/usda/USDAProgramReminder";
 import EPAHerbicideUpdate from "@/components/epa/EPAHerbicideUpdate";
 import InputCostAnalysis from "@/components/input-cost/InputCostAnalysis";
+import { PromptsService, Prompt } from "@/services/promptsService";
 
 export default function FarmerFacing() {
   const [question, setQuestion] = useState("");
@@ -13,6 +14,28 @@ export default function FarmerFacing() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [lastRequestTime, setLastRequestTime] = useState(0);
+  const [savedPrompts, setSavedPrompts] = useState<Prompt[]>([]);
+  const [loadingPrompts, setLoadingPrompts] = useState(true);
+
+  // Fetch saved prompts on component mount
+  useEffect(() => {
+    const fetchSavedPrompts = async () => {
+      try {
+        const { data, error } = await PromptsService.getUserPrompts('a6f9830f-7507-44ad-88f4-ed02ab3a41e0');
+        if (error) {
+          console.error('Error fetching prompts:', error);
+        } else {
+          setSavedPrompts(data || []);
+        }
+      } catch (err) {
+        console.error('Error fetching prompts:', err);
+      } finally {
+        setLoadingPrompts(false);
+      }
+    };
+
+    fetchSavedPrompts();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,6 +69,21 @@ export default function FarmerFacing() {
       }
 
       setResponse(data.answer);
+      
+      // Save the prompt and response to the database
+      try {
+        await PromptsService.savePrompt(question, data.answer, 'a6f9830f-7507-44ad-88f4-ed02ab3a41e0');
+        console.log('Prompt and response saved successfully');
+        
+        // Refresh the saved prompts list
+        const { data: updatedPrompts } = await PromptsService.getUserPrompts('a6f9830f-7507-44ad-88f4-ed02ab3a41e0');
+        if (updatedPrompts) {
+          setSavedPrompts(updatedPrompts);
+        }
+      } catch (saveError) {
+        console.error('Failed to save prompt:', saveError);
+        // Don't show error to user as this is a background operation
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -91,25 +129,46 @@ export default function FarmerFacing() {
             </div>
 
             {/* Suggested Question Buttons */}
-            <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center">
-              <button 
-                onClick={() => handleSuggestedQuestion("What are the latest changes in biotech labeling requirements?")}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors"
-              >
-                What are the latest changes in biotech labeling requirements?
-              </button>
-              <button 
-                onClick={() => handleSuggestedQuestion("How do I navigate USDA-APHIS notification process?")}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors"
-              >
-                How do I navigate USDA-APHIS notification process?
-              </button>
-              <button 
-                onClick={() => handleSuggestedQuestion("What documentation is needed for clinical trial applications?")}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors"
-              >
-                What documentation is needed for clinical trial applications?
-              </button>
+            <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center" id="suggested-questions">
+              {loadingPrompts ? (
+                <div className="flex items-center justify-center py-4">
+                  <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+                  <span className="ml-2 text-gray-600">Loading your previous questions...</span>
+                </div>
+              ) : savedPrompts.length > 0 ? (
+                savedPrompts.slice(0, 3).map((prompt, index) => (
+                  <button 
+                    key={prompt.id || index}
+                    onClick={() => handleSuggestedQuestion(prompt.propmt)}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors"
+                    title={`Asked on ${new Date(prompt.created_at || '').toLocaleDateString()}`}
+                  >
+                    {prompt.propmt}
+                  </button>
+                ))
+              ) : (
+                // Fallback to static questions if no saved prompts
+                <>
+                  <button 
+                    onClick={() => handleSuggestedQuestion("What are the latest changes in biotech labeling requirements?")}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors"
+                  >
+                    What are the latest changes in biotech labeling requirements?
+                  </button>
+                  <button 
+                    onClick={() => handleSuggestedQuestion("How do I navigate USDA-APHIS notification process?")}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors"
+                  >
+                    How do I navigate USDA-APHIS notification process?
+                  </button>
+                  <button 
+                    onClick={() => handleSuggestedQuestion("What documentation is needed for clinical trial applications?")}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-left transition-colors"
+                  >
+                    What documentation is needed for clinical trial applications?
+                  </button>
+                </>
+              )}
             </div>
 
             {/* AI Search Box */}
