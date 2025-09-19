@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import WeatherCard from "@/components/weather/WeatherCard";
 import USDAProgramReminder from "@/components/usda/USDAProgramReminder";
 import EPAHerbicideUpdate from "@/components/epa/EPAHerbicideUpdate";
@@ -16,6 +16,28 @@ export default function FarmerFacing() {
   const [lastRequestTime, setLastRequestTime] = useState(0);
   const [savedPrompts, setSavedPrompts] = useState<Prompt[]>([]);
   const [loadingPrompts, setLoadingPrompts] = useState(true);
+  const [showCustomizeDropdown, setShowCustomizeDropdown] = useState(false);
+  const [enabledAlerts, setEnabledAlerts] = useState<Record<string, boolean>>({
+    'weather': true,
+    'grain-bids': true,
+    'usda-program': true,
+    'epa-herbicide': true,
+    'input-cost': true
+  });
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Load user preferences from localStorage on component mount
+  useEffect(() => {
+    const savedPreferences = localStorage.getItem('alert-preferences');
+    if (savedPreferences) {
+      try {
+        const preferences = JSON.parse(savedPreferences);
+        setEnabledAlerts(preferences);
+      } catch (err) {
+        console.error('Error loading alert preferences:', err);
+      }
+    }
+  }, []);
 
   // Fetch saved prompts on component mount
   useEffect(() => {
@@ -35,6 +57,20 @@ export default function FarmerFacing() {
     };
 
     fetchSavedPrompts();
+  }, []);
+
+  // Handle click outside dropdown to close it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowCustomizeDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -94,6 +130,27 @@ export default function FarmerFacing() {
   const handleSuggestedQuestion = (suggestedQuestion: string) => {
     setQuestion(suggestedQuestion);
   };
+
+  const toggleCustomizeDropdown = () => {
+    setShowCustomizeDropdown(!showCustomizeDropdown);
+  };
+
+  const toggleAlert = (alertKey: string) => {
+    const newEnabledAlerts = {
+      ...enabledAlerts,
+      [alertKey]: !enabledAlerts[alertKey]
+    };
+    setEnabledAlerts(newEnabledAlerts);
+    localStorage.setItem('alert-preferences', JSON.stringify(newEnabledAlerts));
+  };
+
+  const alertOptions = [
+    { key: 'weather', label: 'Weather & Planting Alert' },
+    { key: 'grain-bids', label: 'Grain Bids Nearby' },
+    { key: 'usda-program', label: 'USDA Program Reminder' },
+    { key: 'epa-herbicide', label: 'EPA Herbicide Update' },
+    { key: 'input-cost', label: 'Input Cost Analysis' }
+  ];
   return (
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
@@ -278,47 +335,76 @@ export default function FarmerFacing() {
                 <h2 className="text-2xl font-bold text-gray-900">Policy Alerts</h2>
                 <p className="text-gray-600 mt-1">Stay informed about regulatory changes, program deadlines, and <br/>advocacy opportunities that impact your farming operations.</p>
               </div>
-              <button className="flex items-center px-4 py-2 bg-white border border-[#ddd] hover:bg-gray-200 rounded-lg transition-colors">
-                <span className="text-gray-700 mr-2">Customize Alerts</span>
-                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+              <div className="relative" ref={dropdownRef}>
+                <button 
+                  onClick={toggleCustomizeDropdown}
+                  className="flex items-center px-4 py-2 bg-white border border-[#ddd] hover:bg-gray-200 rounded-lg transition-colors" 
+                  id="customize-alerts"
+                >
+                  <span className="text-gray-700 mr-2">Customize Alerts</span>
+                  <svg className={`w-4 h-4 text-gray-500 transition-transform ${showCustomizeDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {showCustomizeDropdown && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                    <div className="p-4">
+                      <h3 className="text-sm font-semibold text-gray-900 mb-3">Select Alerts to Display</h3>
+                      <div className="space-y-2">
+                        {alertOptions.map((option) => (
+                          <label key={option.key} className="flex items-center">
+                            <input
+                              type="checkbox"
+                              checked={enabledAlerts[option.key]}
+                              onChange={() => toggleAlert(option.key)}
+                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            />
+                            <span className="ml-2 text-sm text-gray-700">{option.label}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Cards Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Weather & Planting Alert */}
-              <WeatherCard />
+              {enabledAlerts['weather'] && <WeatherCard />}
 
               {/* Grain Bids Nearby */}
-              <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#e8e8e8' }}>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Grain Bids Nearby</h3>
-                   <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
-  <li className=" items-center">
-    ADM Columbia: $12.47/bu (basis -05)
-  </li>
+              {enabledAlerts['grain-bids'] && (
+                <div className="bg-white rounded-lg p-6 border" style={{ borderColor: '#e8e8e8' }}>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Grain Bids Nearby</h3>
+                     <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">
+    <li className=" items-center">
+      ADM Columbia: $12.47/bu (basis -05)
+    </li>
 
-  <li className=" items-center">
-   Cargill Jefferson City: $12.32/bu (basis -12)
-  </li>
-   <li className=" items-center">
-   MFA Mexico: $12.40/bu (basis -08)
-  </li>
-   <li className="flex items-center mt-2">
- ✅ ADM Columbia currently best net price.
-  </li>
-</ul>
-              </div>
+    <li className=" items-center">
+     Cargill Jefferson City: $12.32/bu (basis -12)
+    </li>
+     <li className=" items-center">
+     MFA Mexico: $12.40/bu (basis -08)
+    </li>
+     <li className="flex items-center mt-2">
+     ✅ ADM Columbia currently best net price.
+    </li>
+  </ul>
+                </div>
+              )}
 
               {/* USDA Program Reminder */}
-              <USDAProgramReminder county="Boone County" state="Missouri" />
+              {enabledAlerts['usda-program'] && <USDAProgramReminder county="Boone County" state="Missouri" />}
 
               {/* EPA Herbicide Update */}
-              <EPAHerbicideUpdate county="Boone County" state="Missouri" />
+              {enabledAlerts['epa-herbicide'] && <EPAHerbicideUpdate county="Boone County" state="Missouri" />}
 
               {/* Input Cost Analysis */}
-              <InputCostAnalysis region="Central MO" crop="soybean" />
+              {enabledAlerts['input-cost'] && <InputCostAnalysis region="Central MO" crop="soybean" />}
             </div>
           </div>
 
