@@ -160,7 +160,7 @@ export default function FarmerFacing() {
           <div className="bg-white p-8" style={{ borderColor: '#e8e8e8' }}>
             {/* Header with star icon */}
             <div className="text-center mb-8">
-              <div className="flex items-center justify-center mb-4 gap-x-2">
+              {/* <div className="flex items-center justify-center mb-4 gap-x-2">
                  <Image  src="/assets/images/star.png" 
                   alt="Agriculture AI"
                   width={20} 
@@ -168,7 +168,7 @@ export default function FarmerFacing() {
                   className="mb-2"
                 />
                 <h1 className="text-lg font-medium text-gray-700">AI-Powered Agricultural Intelligence</h1>
-              </div>
+              </div> */}
               
               {/* Main headings */}
               <h2 className="text-4xl font-bold text-gray-900 mb-2">
@@ -181,7 +181,7 @@ export default function FarmerFacing() {
               {/* Description */}
               <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
                 Get instant answers about regulations, programs, and crop guidance. From EPA rules to USDA programs, 
-                LinkCurrent makes complex agricultural compliance simple and actionable.
+                Missouri Soybean Association makes complex agricultural compliance simple and actionable.
               </p>
             </div>
 

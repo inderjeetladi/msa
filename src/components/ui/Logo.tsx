@@ -17,7 +17,7 @@ export default function Logo({ className = '', size = 'md' }: LogoProps) {
   return (
     <div className={`flex items-center ${className}`}>
       <Image
-        src="/logo/link-current-logo.png"
+        src="/logo/msa-logo.png"
         alt="LINK CURRENT Logo"
         width={dimensions.width}
         height={dimensions.height}

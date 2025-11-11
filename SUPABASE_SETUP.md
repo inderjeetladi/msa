@@ -1,6 +1,6 @@
 # Supabase Setup for Prompts Storage
 
-This document explains how to set up Supabase for storing farmer prompts in the LinkCurrent application.
+This document explains how to set up Supabase for storing farmer prompts in the Missouri Soybean Association application.
 
 ## Prerequisites
 
