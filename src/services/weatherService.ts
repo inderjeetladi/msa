@@ -117,7 +117,7 @@ const isCacheValid = (cachedData: CachedWeatherData, city: string, country: stri
   return !isExpired && isSameLocation;
 };
 
-export const getWeatherForecast = async (city: string = 'St. Louis', country: string = 'US'): Promise<WeatherForecast> => {
+export const getWeatherForecast = async (city: string = 'Columbia, MO', country: string = 'US'): Promise<WeatherForecast> => {
   // Check cache first
   const cachedData = getCachedWeatherData();
   if (cachedData && isCacheValid(cachedData, city, country)) {

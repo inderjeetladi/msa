@@ -18,7 +18,7 @@ export default function Logo({ className = '', size = 'md' }: LogoProps) {
     <div className={`flex items-center ${className}`}>
       <Image
         src="/logo/msa-logo.png"
-        alt="LINK CURRENT Logo"
+        alt="Missouri Soybean Association"
         width={dimensions.width}
         height={dimensions.height}
         priority

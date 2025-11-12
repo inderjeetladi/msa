@@ -6,7 +6,7 @@ export default function StaffFacingProfile() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Member Profile</h1>
-            <p className="text-gray-600 mt-1">Comprehensive staff view of member data and interactions</p>
+            <p className="text-gray-600 mt-1 opacity-50">Comprehensive staff view of member data and interactions</p>
           </div>
           <button className="flex items-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors">
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
