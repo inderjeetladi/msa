@@ -6,7 +6,7 @@ import ClientLayout from "./client-layout";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "LINK CURRENT - Dashboard",
+  title: "Missouri Soybean Association - Dashboard",
   description: "A modern dashboard application with sidebar and topbar",
 };
 

@@ -120,10 +120,10 @@ const isCacheValid = (cachedData: CachedWeatherData, city: string, country: stri
 export const getWeatherForecast = async (city: string = 'Columbia, MO', country: string = 'US'): Promise<WeatherForecast> => {
   // Check cache first
   const cachedData = getCachedWeatherData();
-  if (cachedData && isCacheValid(cachedData, city, country)) {
+  /*if (cachedData && isCacheValid(cachedData, city, country)) {
     console.log('Using cached weather data');
     return cachedData.data;
-  }
+  }*/
 
   try {
     console.log('Fetching fresh weather data from API');
