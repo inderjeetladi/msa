@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import { getWeatherForecast, getWeatherIcon, getPlantingRecommendation, clearWeatherCache, getCacheInfo, WeatherForecast } from '@/services/weatherService';
 
 interface WeatherCardProps {
@@ -12,8 +13,17 @@ export default function WeatherCard({ className = "" }: WeatherCardProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [cacheInfo, setCacheInfo] = useState<{ isCached: boolean; age: number; isExpired: boolean } | null>(null);
+  const [postalInput, setPostalInput] = useState('');
+  const [activePostalCode, setActivePostalCode] = useState<string | null>(null);
 
-  const fetchWeather = async (forceRefresh = false) => {
+  const handlePostalInputChange = (value: string) => {
+    setPostalInput(value);
+    if (error) {
+      setError(null);
+    }
+  };
+
+  const fetchWeather = async ({ forceRefresh = false, postalCode = activePostalCode }: { forceRefresh?: boolean; postalCode?: string | null } = {}) => {
     try {
       setLoading(true);
       setError(null);
@@ -22,7 +32,9 @@ export default function WeatherCard({ className = "" }: WeatherCardProps) {
         clearWeatherCache();
       }
       
-      const data = await getWeatherForecast();
+      const data = await getWeatherForecast(
+        postalCode ? { postalCode } : {}
+      );
       setWeatherData(data);
       
       // Update cache info
@@ -41,7 +53,21 @@ export default function WeatherCard({ className = "" }: WeatherCardProps) {
   }, []);
 
   const handleRefresh = () => {
-    fetchWeather(true);
+    fetchWeather({ forceRefresh: true });
+  };
+
+  const handlePostalSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const trimmedPostal = postalInput.trim();
+
+    if (!trimmedPostal) {
+      setError('Please enter a valid postal code.');
+      return;
+    }
+
+    setActivePostalCode(trimmedPostal);
+    setPostalInput(trimmedPostal);
+    await fetchWeather({ forceRefresh: true, postalCode: trimmedPostal });
   };
 
   const getWeatherIconComponent = (iconCode: string) => {
@@ -113,6 +139,27 @@ export default function WeatherCard({ className = "" }: WeatherCardProps) {
     return (
       <div className={`bg-white rounded-lg p-6 border ${className}`} style={{ borderColor: '#e8e8e8' }}>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Weather & Planting Alert</h3>
+        <form onSubmit={handlePostalSubmit} className="flex flex-col gap-2 sm:flex-row sm:items-end mb-4">
+          <div className="w-full sm:w-auto flex-1">
+            <label htmlFor="postal-code-input" className="block text-sm font-medium text-gray-700 mb-1">
+              Enter ZIP / Postal Code
+            </label>
+            <input
+              id="postal-code-input"
+              value={postalInput}
+              onChange={(event) => handlePostalInputChange(event.target.value)}
+              placeholder="e.g. 65201"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <button
+            type="submit"
+            className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
+            disabled={loading}
+          >
+            Update Weather
+          </button>
+        </form>
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
           <div className="flex items-center">
             <svg className="w-5 h-5 text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -152,6 +199,33 @@ export default function WeatherCard({ className = "" }: WeatherCardProps) {
           </button>
         </div>
       </div>
+
+      <form onSubmit={handlePostalSubmit} className="flex flex-col gap-2 sm:flex-row sm:items-end mb-4">
+        <div className="w-full sm:w-auto flex-1">
+          <label htmlFor="postal-code-input-loaded" className="block text-sm font-medium text-gray-700 mb-1">
+            Enter ZIP / Postal Code
+          </label>
+          <input
+            id="postal-code-input-loaded"
+            value={postalInput}
+            onChange={(event) => handlePostalInputChange(event.target.value)}
+            placeholder="e.g. 65201"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <button
+          type="submit"
+          className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
+          disabled={loading}
+        >
+          Update Weather
+        </button>
+      </form>
+
+      <p className="text-sm text-gray-500 mb-4">
+        Showing weather for {weatherData.city}, {weatherData.country}
+        {activePostalCode ? ` (Postal code: ${activePostalCode})` : ''}
+      </p>
       
       {/* Current Weather Summary */}
       <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700">

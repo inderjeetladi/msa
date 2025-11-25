@@ -68,12 +68,21 @@ const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY || 'your-api-key-her
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 const CACHE_KEY = 'weather_forecast_cache';
 const CACHE_DURATION = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
+const DEFAULT_CITY = 'Columbia';
+const DEFAULT_STATE = 'MO';
+const DEFAULT_COUNTRY = 'US';
+
+export interface WeatherLocationOptions {
+  city?: string;
+  state?: string;
+  country?: string;
+  postalCode?: string;
+}
 
 interface CachedWeatherData {
   data: WeatherForecast;
   timestamp: number;
-  city: string;
-  country: string;
+  locationKey: string;
 }
 
 // Helper functions for localStorage operations
@@ -92,15 +101,14 @@ const getCachedWeatherData = (): CachedWeatherData | null => {
   }
 };
 
-const setCachedWeatherData = (data: WeatherForecast, city: string, country: string): void => {
+const setCachedWeatherData = (data: WeatherForecast, locationKey: string): void => {
   try {
     if (typeof window === 'undefined') return;
     
     const cacheData: CachedWeatherData = {
       data,
       timestamp: Date.now(),
-      city,
-      country
+      locationKey
     };
     
     localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
@@ -109,33 +117,88 @@ const setCachedWeatherData = (data: WeatherForecast, city: string, country: stri
   }
 };
 
-const isCacheValid = (cachedData: CachedWeatherData, city: string, country: string): boolean => {
+const isCacheValid = (cachedData: CachedWeatherData, locationKey: string): boolean => {
   const now = Date.now();
   const isExpired = now - cachedData.timestamp > CACHE_DURATION;
-  const isSameLocation = cachedData.city === city && cachedData.country === country;
+  const isSameLocation = cachedData.locationKey === locationKey;
   
   return !isExpired && isSameLocation;
 };
 
-export const getWeatherForecast = async (city: string = 'Columbia, MO', country: string = 'US'): Promise<WeatherForecast> => {
+const createLocationKey = ({ city, state, country, postalCode }: Required<Pick<WeatherLocationOptions, 'country'>> & WeatherLocationOptions): string => {
+  if (postalCode) {
+    return `postal:${postalCode.trim().toLowerCase()},${country.trim().toLowerCase()}`;
+  }
+
+  const locationParts = [city, state, country]
+    .filter((part): part is string => Boolean(part && part.trim()))
+    .map(part => part.trim().toLowerCase());
+
+  return `city:${locationParts.join(',')}`;
+};
+
+const buildWeatherUrl = (endpoint: 'forecast' | 'weather', options: { postalCode?: string; city?: string; state?: string; country: string }) => {
+  const params = new URLSearchParams({
+    appid: API_KEY,
+    units: 'metric'
+  });
+
+  if (options.postalCode) {
+    const zipValue = options.country
+      ? `${options.postalCode},${options.country}`
+      : options.postalCode;
+    params.set('zip', zipValue);
+  } else {
+    const locationParts = [options.city, options.state, options.country]
+      .filter((part): part is string => Boolean(part && part.trim()))
+      .join(',');
+    params.set('q', locationParts);
+  }
+  console.log('buildWeatherUrl: '+`${BASE_URL}/${endpoint}?${params.toString()}`);
+  return `${BASE_URL}/${endpoint}?${params.toString()}`;
+};
+
+export const getWeatherForecast = async (locationOptions: WeatherLocationOptions = {}): Promise<WeatherForecast> => {
+  const {
+    city = DEFAULT_CITY,
+    state = DEFAULT_STATE,
+    country = DEFAULT_COUNTRY,
+    postalCode
+  } = locationOptions;
+
+  const locationKey = createLocationKey({ city, state, country, postalCode });
+
   // Check cache first
   const cachedData = getCachedWeatherData();
-  /*if (cachedData && isCacheValid(cachedData, city, country)) {
+  /*if (cachedData && isCacheValid(cachedData, locationKey)) {
     console.log('Using cached weather data');
     return cachedData.data;
   }*/
 
   try {
     console.log('Fetching fresh weather data from API');
-    const response = await fetch(
-      `${BASE_URL}/forecast?q=${city},${country}&appid=${API_KEY}&units=metric`
+    const forecastResponse = await fetch(
+      buildWeatherUrl('forecast', { postalCode, city, state, country })
     );
 
-    if (!response.ok) {
-      throw new Error(`Weather API error: ${response.status}`);
+    if (!forecastResponse.ok) {
+      let errorMessage = `Weather API error: ${forecastResponse.status}`;
+      if (forecastResponse.status === 404) {
+        errorMessage = 'No weather data found for the provided location. Please verify the postal code.';
+      } else {
+        try {
+          const errorBody = await forecastResponse.json();
+          if (errorBody?.message) {
+            errorMessage = `Weather API error: ${errorBody.message}`;
+          }
+        } catch {
+          // Ignore JSON parsing errors and fall back to default message
+        }
+      }
+      throw new Error(errorMessage);
     }
 
-    const data: OpenWeatherForecastResponse = await response.json();
+    const data: OpenWeatherForecastResponse = await forecastResponse.json();
     
     // Process the 5-day forecast data
     const forecast: WeatherData[] = [];
@@ -163,11 +226,24 @@ export const getWeatherForecast = async (city: string = 'Columbia, MO', country:
 
     // Get current weather
     const currentResponse = await fetch(
-      `${BASE_URL}/weather?q=${city},${country}&appid=${API_KEY}&units=metric`
+      buildWeatherUrl('weather', { postalCode, city, state, country })
     );
     
     if (!currentResponse.ok) {
-      throw new Error(`Current weather API error: ${currentResponse.status}`);
+      let errorMessage = `Current weather API error: ${currentResponse.status}`;
+      if (currentResponse.status === 404) {
+        errorMessage = 'No current weather data found for the provided location.';
+      } else {
+        try {
+          const errorBody = await currentResponse.json();
+          if (errorBody?.message) {
+            errorMessage = `Current weather API error: ${errorBody.message}`;
+          }
+        } catch {
+          // Ignore JSON parsing errors and fall back to default message
+        }
+      }
+      throw new Error(errorMessage);
     }
     
     const currentData: OpenWeatherCurrentResponse = await currentResponse.json();
@@ -185,7 +261,7 @@ export const getWeatherForecast = async (city: string = 'Columbia, MO', country:
     };
 
     // Cache the fresh data
-    setCachedWeatherData(weatherData, city, country);
+    setCachedWeatherData(weatherData, locationKey);
     
     return weatherData;
   } catch (error) {
