@@ -125,7 +125,7 @@ export default function FarmerFacing() {
             </div>
 
             {/* Suggested Question Buttons */}
-            <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center" id="suggested-questions">
+            {/* <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center" id="suggested-questions">
               {loadingPrompts ? (
                 <div className="flex items-center justify-center py-4">
                   <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
@@ -165,7 +165,7 @@ export default function FarmerFacing() {
                   </button>
                 </>
               )}
-            </div>
+            </div> */}
 
             {/* AI Search Box */}
             <div className="relative max-w-4xl mx-auto">
