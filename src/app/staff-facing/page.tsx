@@ -774,12 +774,12 @@ export default function StaffFacing() {
             </div>
 
             {/* Recent Communications Section */}
+            {/* 
             <div className="bg-[#F9F9FA] p-6 mt-8">
               <h3 className="text-xl font-bold text-gray-900 mb-2">Recent Communications</h3>
               <p className="text-sm text-gray-600 mb-6">Track sent messages and engagement rates</p>
               
               <div className="space-y-4">
-                {/* FSMA Compliance Update */}
                 <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
                   <div className="flex items-center justify-between">
                     <div>
@@ -799,7 +799,6 @@ export default function StaffFacing() {
                   </div>
                 </div>
 
-                {/* Regional Meeting Invitation */}
                 <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
                   <div className="flex items-center justify-between">
                     <div>
@@ -819,7 +818,6 @@ export default function StaffFacing() {
                   </div>
                 </div>
 
-                {/* New Regulatory Alert */}
                 <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
                   <div className="flex items-center justify-between">
                     <div>
@@ -840,6 +838,7 @@ export default function StaffFacing() {
                 </div>
               </div>
             </div>
+            */}
           </div>
         );
       default:
