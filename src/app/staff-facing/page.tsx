@@ -1,9 +1,184 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export default function StaffFacing() {
   const [activeTab, setActiveTab] = useState('engagement-dashboard');
+  
+  // Group Email state
+  const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
+  const [emailSubject, setEmailSubject] = useState('');
+  const [emailMessage, setEmailMessage] = useState('');
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [emailSuccess, setEmailSuccess] = useState('');
+  
+  // Profiles state (for Group Email)
+  interface Profile {
+    email: string;
+    full_name: string;
+  }
+  
+  const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [loadingProfiles, setLoadingProfiles] = useState(false);
+  const [profilesError, setProfilesError] = useState('');
+
+  // Member Directory state
+  const [memberDirectory, setMemberDirectory] = useState<Profile[]>([]);
+  const [loadingMembers, setLoadingMembers] = useState(false);
+  const [membersError, setMembersError] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Fetch profiles from Supabase for Group Email
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      if (activeTab !== 'communications-hub') return;
+      
+      setLoadingProfiles(true);
+      setProfilesError('');
+      
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('email, full_name')
+          .not('email', 'is', null);
+
+        if (error) {
+          throw error;
+        }
+
+        setProfiles(data || []);
+      } catch (error) {
+        console.error('Error fetching profiles:', error);
+        setProfilesError(error instanceof Error ? error.message : 'Failed to load profiles');
+      } finally {
+        setLoadingProfiles(false);
+      }
+    };
+
+    fetchProfiles();
+  }, [activeTab]);
+
+  // Fetch profiles from Supabase for Member Directory
+  useEffect(() => {
+    const fetchMemberDirectory = async () => {
+      if (activeTab !== 'member-directory') return;
+      
+      setLoadingMembers(true);
+      setMembersError('');
+      
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('email, full_name')
+          .not('email', 'is', null)
+          .order('full_name', { ascending: true });
+
+        if (error) {
+          throw error;
+        }
+
+        setMemberDirectory(data || []);
+      } catch (error) {
+        console.error('Error fetching member directory:', error);
+        setMembersError(error instanceof Error ? error.message : 'Failed to load members');
+      } finally {
+        setLoadingMembers(false);
+      }
+    };
+
+    fetchMemberDirectory();
+  }, [activeTab]);
+
+  // Filter members based on search query
+  const filteredMembers = memberDirectory.filter((member) => {
+    if (!searchQuery.trim()) return true;
+    const query = searchQuery.toLowerCase();
+    return (
+      (member.full_name?.toLowerCase().includes(query)) ||
+      (member.email?.toLowerCase().includes(query))
+    );
+  });
+
+  // Handle email checkbox toggle
+  const handleEmailToggle = (email: string) => {
+    setSelectedEmails(prev => {
+      if (prev.includes(email)) {
+        return prev.filter(e => e !== email);
+      } else {
+        return [...prev, email];
+      }
+    });
+    // Clear messages when changing selection
+    setEmailError('');
+    setEmailSuccess('');
+  };
+
+  // Handle form submission
+  const handleSendEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Clear previous messages
+    setEmailError('');
+    setEmailSuccess('');
+
+    // Validation
+    if (selectedEmails.length === 0) {
+      setEmailError('Please select at least one recipient');
+      return;
+    }
+
+    if (!emailSubject.trim()) {
+      setEmailError('Please enter a subject');
+      return;
+    }
+
+    if (!emailMessage.trim()) {
+      setEmailError('Please enter a message');
+      return;
+    }
+
+    setIsSendingEmail(true);
+
+    try {
+      const response = await fetch('/api/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          recipients: selectedEmails,
+          subject: emailSubject,
+          message: emailMessage,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send email');
+      }
+
+      // Success
+      setEmailSuccess(`Email sent successfully to ${data.sent || selectedEmails.length} recipient(s)`);
+      
+      // Clear form
+      setSelectedEmails([]);
+      setEmailSubject('');
+      setEmailMessage('');
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setEmailSuccess('');
+      }, 5000);
+
+    } catch (error) {
+      setEmailError(error instanceof Error ? error.message : 'Failed to send email. Please try again.');
+    } finally {
+      setIsSendingEmail(false);
+    }
+  };
 
   const tabs = [
     { id: 'engagement-dashboard', name: 'Engagement Dashboard' },
@@ -257,6 +432,8 @@ export default function StaffFacing() {
                 </div>
                 <input
                   type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search members..."
                   className="w-full bg-white pl-10 pr-4 py-3 border border-[#e8e8e8] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
@@ -295,173 +472,57 @@ export default function StaffFacing() {
               </div>
             </div>
 
-            {/* Member List with more members */}
-            <div className="space-y-4">
-              {/* Sarah Johnson */}
-              <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-lg font-bold text-gray-900">Sarah Johnson</h3>
-                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-[3px]">Active</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-[3px]">High Engagement</span>
-                    </div>
-                    <p className="text-gray-600 mb-1">sarah@example.com</p>
-                    <p className="text-sm text-gray-500">Northeast • Dairy • Last active: 2024-01-15</p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    </button>
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </button>
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+            {/* Member List */}
+            {loadingMembers ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="w-6 h-6 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin mr-3"></div>
+                <span className="text-gray-600">Loading members...</span>
               </div>
-
-              {/* Mike Chen */}
-              <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-lg font-bold text-gray-900">Mike Chen</h3>
-                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-[3px]">Active</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-[3px]">High Engagement</span>
-                    </div>
-                    <p className="text-gray-600 mb-1">mike@example.com</p>
-                    <p className="text-sm text-gray-500">Northeast • Dairy • Last active: 2024-01-15</p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    </button>
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </button>
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+            ) : membersError ? (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+                <p className="text-red-800">Error loading members: {membersError}</p>
               </div>
-
-              {/* Emily Rodriguez */}
-              <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-lg font-bold text-gray-900">Emily Rodriguez</h3>
-                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-[3px]">Active</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-[3px]">High Engagement</span>
-                    </div>
-                    <p className="text-gray-600 mb-1">emily@example.com</p>
-                    <p className="text-sm text-gray-500">Northeast • Dairy • Last active: 2024-01-15</p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    </button>
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </button>
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+            ) : filteredMembers.length === 0 ? (
+              <div className="bg-gray-50 rounded-lg p-6 text-center">
+                <p className="text-gray-600">
+                  {searchQuery ? 'No members found matching your search.' : 'No members found.'}
+                </p>
               </div>
-
-              {/* David Kim */}
-              <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-lg font-bold text-gray-900">David Kim</h3>
-                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-[3px]">Active</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-[3px]">High Engagement</span>
+            ) : (
+              <div className="space-y-4">
+                {filteredMembers.map((member) => (
+                  <div key={member.email} className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <h3 className="text-lg font-bold text-gray-900">{member.full_name || 'No name'}</h3>
+                          <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-[3px]">Active</span>
+                        </div>
+                        <p className="text-gray-600 mb-1">{member.email}</p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
+                          <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                        </button>
+                        <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
+                          <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>
+                        </button>
+                        <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
+                          <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
-                    <p className="text-gray-600 mb-1">david@example.com</p>
-                    <p className="text-sm text-gray-500">Northeast • Dairy • Last active: 2024-01-15</p>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    </button>
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </button>
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+                ))}
               </div>
-
-              {/* Lisa Thompson */}
-              <div className="bg-white rounded-lg p-6  border" style={{ borderColor: '#e8e8e8' }}>
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-lg font-bold text-gray-900">Lisa Thompson</h3>
-                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-[3px]">Active</span>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-[3px]">High Engagement</span>
-                    </div>
-                    <p className="text-gray-600 mb-1">lisa@example.com</p>
-                    <p className="text-sm text-gray-500">Northeast • Dairy • Last active: 2024-01-15</p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    </button>
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </button>
-                    <button className="w-8 h-8 rounded-[3px] border border-[#e8e8e8] flex items-center justify-center hover:bg-gray-50">
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         );
       case 'communications-hub':
@@ -469,15 +530,14 @@ export default function StaffFacing() {
           <div className="p-0">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Communications Hub</h2>
             
-            {/* Messaging Sections */}
+            {/* Messaging Sections - Email Campaigns and Multi-Channel Messaging commented out */}
+            {/* 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Email Campaigns Card */}
               <div className="bg-[#F9F9FA] p-6 rounded-lg " style={{ borderColor: '#e8e8e8' }}>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Email Campaigns</h3>
                 <p className="text-sm text-gray-600 mb-6">Send targeted emails to member segments</p>
                 
                 <div className="space-y-4">
-                  {/* Select Audience */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Select Audience</label>
                     <div className="relative">
@@ -497,7 +557,6 @@ export default function StaffFacing() {
                     </div>
                   </div>
 
-                  {/* Message Template */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Message Template</label>
                     <div className="relative">
@@ -517,20 +576,17 @@ export default function StaffFacing() {
                     </div>
                   </div>
 
-                  {/* Send Campaign Button */}
                   <button className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors font-medium">
                     Send Campaign
                   </button>
                 </div>
               </div>
 
-              {/* Multi-Channel Messaging Card */}
               <div className="bg-[#F9F9FA] p-6 rounded-lg" style={{ borderColor: '#e8e8e8' }}>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">Multi-Channel Messaging</h3>
                 <p className="text-sm text-gray-600 mb-6">Send messages via email, SMS, and social media</p>
                 
                 <div className="space-y-4">
-                  {/* Message Type */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Message Type</label>
                     <div className="relative">
@@ -550,11 +606,9 @@ export default function StaffFacing() {
                     </div>
                   </div>
 
-                  {/* Channels */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-3">Channels</label>
                     <div className="flex space-x-3">
-                      {/* Email Channel */}
                       <label className="flex-1 cursor-pointer">
                         <input type="radio" name="channel" value="email" className="sr-only" defaultChecked />
                         <div className="bg-white border-2 border-[#e8e8e8] rounded-lg p-3 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors ">
@@ -566,7 +620,6 @@ export default function StaffFacing() {
                         </div>
                       </label>
 
-                      {/* SMS Channel */}
                       <label className="flex-1 cursor-pointer">
                         <input type="radio" name="channel" value="sms" className="sr-only" />
                         <div className="bg-white border-2 border-[#e8e8e8] rounded-lg p-3 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
@@ -577,7 +630,6 @@ export default function StaffFacing() {
                         </div>
                       </label>
 
-                      {/* Social Channel */}
                       <label className="flex-1 cursor-pointer">
                         <input type="radio" name="channel" value="social" className="sr-only" />
                         <div className="bg-white border-2 border-[#e8e8e8] rounded-lg p-3 flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
@@ -590,12 +642,135 @@ export default function StaffFacing() {
                     </div>
                   </div>
 
-                  {/* Create Multi Channel Campaign Button */}
                   <button className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors font-medium">
                     Create Multi Channel Campaign
                   </button>
                 </div>
               </div>
+            </div>
+            */}
+
+            {/* Group Email Feature */}
+            <div className="bg-[#F9F9FA] p-6 rounded-lg mb-8" style={{ borderColor: '#e8e8e8' }}>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Group Email</h3>
+              <p className="text-sm text-gray-600 mb-6">
+                Send email to selected recipients
+                {selectedEmails.length > 0 && (
+                  <span className="ml-2 text-gray-500">({selectedEmails.length} selected)</span>
+                )}
+              </p>
+              
+              <form onSubmit={handleSendEmail}>
+                <div className="space-y-6">
+                  {/* Email Recipients */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Select Recipients</label>
+                    <div className="bg-white rounded-lg border" style={{ borderColor: '#e8e8e8' }}>
+                      {loadingProfiles ? (
+                        <div className="p-4 flex items-center justify-center">
+                          <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin mr-2"></div>
+                          <span className="text-gray-600 text-sm">Loading profiles...</span>
+                        </div>
+                      ) : profilesError ? (
+                        <div className="p-4 text-red-600 text-sm">
+                          Error loading profiles: {profilesError}
+                        </div>
+                      ) : profiles.length === 0 ? (
+                        <div className="p-4 text-gray-600 text-sm text-center">
+                          No profiles found
+                        </div>
+                      ) : (
+                        <div className="p-4 space-y-3">
+                          {profiles.map((profile) => (
+                            <label 
+                              key={profile.email}
+                              className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors"
+                            >
+                              <input 
+                                type="checkbox"
+                                checked={selectedEmails.includes(profile.email)}
+                                onChange={() => handleEmailToggle(profile.email)}
+                                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                disabled={isSendingEmail}
+                              />
+                              <div className="flex flex-col">
+                                <span className="text-gray-900 font-medium">{profile.full_name || 'No name'}</span>
+                                <span className="text-gray-600 text-sm">{profile.email}</span>
+                              </div>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Subject Field */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                    <input
+                      type="text"
+                      value={emailSubject}
+                      onChange={(e) => setEmailSubject(e.target.value)}
+                      placeholder="Enter email subject"
+                      className="w-full bg-white border border-[#e8e8e8] rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      disabled={isSendingEmail}
+                    />
+                  </div>
+
+                  {/* Message Field */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                    <textarea
+                      rows={6}
+                      value={emailMessage}
+                      onChange={(e) => setEmailMessage(e.target.value)}
+                      placeholder="Enter your message here..."
+                      className="w-full bg-white border border-[#e8e8e8] rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                      disabled={isSendingEmail}
+                    ></textarea>
+                  </div>
+
+                  {/* Error Message */}
+                  {emailError && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-red-800 text-sm">{emailError}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Success Message */}
+                  {emailSuccess && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-green-800 text-sm">{emailSuccess}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Send Message Button */}
+                  <button 
+                    type="submit"
+                    disabled={isSendingEmail || selectedEmails.length === 0 || !emailSubject.trim() || !emailMessage.trim()}
+                    className="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors font-medium disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center"
+                  >
+                    {isSendingEmail ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                        Sending...
+                      </>
+                    ) : (
+                      'Send Message'
+                    )}
+                  </button>
+                </div>
+              </form>
             </div>
 
             {/* Recent Communications Section */}
